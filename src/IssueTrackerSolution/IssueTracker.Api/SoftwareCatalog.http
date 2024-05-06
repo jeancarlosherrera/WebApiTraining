@@ -1,0 +1,26 @@
+# For more info on HTTP files go to https://aka.ms/vs/httpfile
+@apiUrl=https://localhost:1338
+
+@ordinaryUserToken=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IklUVVN0dWRlbnQiLCJzdWIiOiJJVFVTdHVkZW50IiwianRpIjoiZDVkNzhhNzYiLCJhdWQiOlsiaHR0cDovL2xvY2FsaG9zdDo0MzQ2NyIsImh0dHBzOi8vbG9jYWxob3N0OjQ0MzY4IiwiaHR0cDovL2xvY2FsaG9zdDoxMzM3IiwiaHR0cHM6Ly9sb2NhbGhvc3Q6MTMzOCJdLCJuYmYiOjE3MTUwMzAwMjUsImV4cCI6MTcyMjk3ODgyNSwiaWF0IjoxNzE1MDMwMDI2LCJpc3MiOiJkb3RuZXQtdXNlci1qd3RzIn0.ITUYEjAg-GAMCOZ5TQQRe26L2QVGXxXybU_hfnh6Ri8
+
+@softwareCenterUserToken=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6InN1ZUBhb2wuY29tIiwic3ViIjoic3VlQGFvbC5jb20iLCJqdGkiOiI3Y2JlMTYzYyIsInJvbGUiOlsiU29mdHdhcmVDZW50ZXIiLCJCb3NzIl0sImF1ZCI6WyJodHRwOi8vbG9jYWxob3N0OjQzNDY3IiwiaHR0cHM6Ly9sb2NhbGhvc3Q6NDQzNjgiLCJodHRwOi8vbG9jYWxob3N0OjEzMzciLCJodHRwczovL2xvY2FsaG9zdDoxMzM4Il0sIm5iZiI6MTcxNTAzMDMwNSwiZXhwIjoxODA5NjM4MzA1LCJpYXQiOjE3MTUwMzAzMDYsImlzcyI6ImRvdG5ldC11c2VyLWp3dHMifQ.kT-A14e-zZ6JWN1GPES1OCVB51SpkSEQHzK6T0kmP9Y
+# Members of the Software Center can add new items to our catalog of supported software.
+# We have a "COLLECTION" of supported software, and we want to APPEND a new subordinate resource (DOCUMENT) to that collection.
+
+POST {{apiUrl}}/catalog
+Authorization: {{softwareCenterUserToken}}
+Content-Type: application/json
+
+{
+  "title": "Jetbrains Rider",
+  "description": "An Integrated Development Environment for .NET Developer on Windows, Linux, Mac"
+}
+
+###
+
+GET {{apiUrl}}/catalog
+Authorization: {{ordinaryUserToken}}
+###
+
+GET {{apiUrl}}/catalog/3d290cc5-fdec-410b-8d42-792a94238ccf
+Authorization: {{ordinaryUserToken}}
