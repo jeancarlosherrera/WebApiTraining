@@ -1,0 +1,333 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "IssueTracker.Api",
+    "version": "1.0"
+  },
+  "paths": {
+    "/status": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Use this to get the status of the API",
+        "responses": {
+          "200": {
+            "description": "The status of the system, including the....",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatusResponseModel"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Admin"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StatusRequestModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StatusRequestModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/StatusRequestModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/catalog": {
+      "post": {
+        "tags": [
+          "Software Catalog"
+        ],
+        "summary": "Add an Item to the Software Catalog",
+        "operationId": "AddCatalog",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCatalogItemRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCatalogItemRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCatalogItemRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The new software item",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CatalogItemResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "A application/problems+json response"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Software Catalog"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/catalog/{id}": {
+      "delete": {
+        "tags": [
+          "Software Catalog"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Software Catalog"
+        ],
+        "operationId": "Replace",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReplaceCatalogItemRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReplaceCatalogItemRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReplaceCatalogItemRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Software Catalog"
+        ],
+        "operationId": "catalog#get-by-id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/CatalogItemResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CatalogItemResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CatalogItemResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CatalogItemResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreateCatalogItemRequest": {
+        "required": [
+          "description",
+          "title"
+        ],
+        "type": "object",
+        "properties": {
+          "title": {
+            "maxLength": 256,
+            "minLength": 5,
+            "type": "string"
+          },
+          "description": {
+            "maxLength": 1024,
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ReplaceCatalogItemRequest": {
+        "required": [
+          "description",
+          "id",
+          "title"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "minLength": 1,
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "maxLength": 256,
+            "minLength": 5,
+            "type": "string"
+          },
+          "description": {
+            "maxLength": 1024,
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "StatusRequestModel": {
+        "required": [
+          "message"
+        ],
+        "type": "object",
+        "properties": {
+          "message": {
+            "maxLength": 30,
+            "minLength": 5,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "StatusResponseModel": {
+        "required": [
+          "checkedAt",
+          "message"
+        ],
+        "type": "object",
+        "properties": {
+          "message": {
+            "maxLength": 30,
+            "minLength": 5,
+            "type": "string"
+          },
+          "checkedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "checkedBy": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "apiKey",
+        "description": "JWT Authorization header with bearer token",
+        "name": "Authorization",
+        "in": "header"
+      }
+    }
+  },
+  "security": [
+    {
+      "Bearer": [ ]
+    }
+  ]
+}
